@@ -52,6 +52,17 @@ Bytebase follows a consistent PATCH pattern for updates:
 - Store layer: `./bytebase/backend/store/*.go`
 - HTTP gateway generated code: `./bytebase/proto/generated-go/v1/*.pb.gw.go`
 
+## Update Mask Paths
+
+When using PATCH requests with `updateMask` parameters, find the correct field paths in the Go implementation:
+
+- **Setting updates**: Check `./bytebase/backend/api/v1/setting_service.go` in the `UpdateSetting` method
+- **Other resources**: Check respective `*_service.go` files for `Update*` methods
+- **Pattern**: Look for `request.UpdateMask.Paths` loops and `case` statements for valid field paths
+- **Example**: `value.workspace_profile_setting_value.database_change_mode` for workspace database change mode
+
+The Go code contains the authoritative field paths that the server accepts, not the proto definitions.
+
 ## HTTP Gateway Generation Rules
 
 **Critical Pattern**: Proto `google.api.http` options determine HTTP mapping:

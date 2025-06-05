@@ -1,0 +1,15 @@
+### Get plan 102 in hr project
+GET {{url}}/v1/projects/hr/plans/102
+Authorization: Bearer {{token}}
+
+###
+
+### List all plans in hr project (to find correct plan IDs)
+GET {{url}}/v1/projects/hr/plans
+Authorization: Bearer {{token}}
+
+###
+
+### Get rollout 102 in hr project
+GET {{url}}/v1/projects/hr/rollouts/102
+Authorization: Bearer {{token}}

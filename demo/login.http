@@ -1,0 +1,6 @@
+POST https://demo.bytebase.com/v1/auth/login
+
+{
+  "email": "api@service.bytebase.com",
+  "password": "bbs_EDyd8zleJVBEZyw81kLL"
+}

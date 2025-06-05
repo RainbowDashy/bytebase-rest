@@ -1,0 +1,3 @@
+### List all settings to find workspace profile setting
+GET {{url}}/v1/settings
+Authorization: Bearer {{token}}

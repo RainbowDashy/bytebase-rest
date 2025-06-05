@@ -1,0 +1,19 @@
+### Update workspace to use SQL editor mode
+PATCH {{url}}/v1/settings/WORKSPACE_PROFILE?updateMask=value.workspace_profile_setting_value.database_change_mode
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "settings/WORKSPACE_PROFILE",
+  "value": {
+    "workspaceProfileSettingValue": {
+      "databaseChangeMode": "PIPELINE"
+    }
+  }
+}
+
+###
+
+### Get current workspace profile setting
+GET {{url}}/v1/settings/WORKSPACE_PROFILE
+Authorization: Bearer {{token}}
