@@ -4,8 +4,9 @@ This directory is for testing Bytebase APIs.
 
 ## Project Structure
 
-- Bytebase source code is located at `~/bytebase` (also accessible as `../bytebase/` from this directory)
+- Bytebase source code is located at `~/bytebase` (also accessible as `../bytebase/` or `./bytebase/` from this directory)
 - This directory (`~/rest/`) contains HTTP test files for API testing
+- `./bytebase/` directory contains symlinked full Bytebase source code for Claude's analysis
 
 ## Technology Stack
 
@@ -39,9 +40,17 @@ Bytebase follows a consistent PATCH pattern for updates:
 
 ## Protobuf Definitions
 
-- Instance API: `~/bytebase/proto/v1/v1/instance_service.proto` or `../bytebase/proto/v1/v1/instance_service.proto`
-- Other v1 APIs: `~/bytebase/proto/v1/v1/*.proto` or `../bytebase/proto/v1/v1/*.proto`
+- v1 API services: `./bytebase/proto/v1/v1/*.proto`
+- Store definitions: `./bytebase/proto/store/store/*.proto`
+- Generated Go code: `./bytebase/proto/generated-go/v1/*.pb.go`
 - HTTP gateway generates REST endpoints from gRPC/protobuf definitions
+
+## Source Code Access
+
+- Full Bytebase source code available at `./bytebase/`
+- Backend API implementations: `./bytebase/backend/api/v1/*_service.go`
+- Store layer: `./bytebase/backend/store/*.go`
+- HTTP gateway generated code: `./bytebase/proto/generated-go/v1/*.pb.gw.go`
 
 ## HTTP Gateway Generation Rules
 
