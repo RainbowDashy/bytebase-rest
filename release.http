@@ -1,0 +1,39 @@
+POST {{url}}/v1/projects/db333/releases
+Authorization: Bearer {{token}}
+
+{
+  "title": "release testestest",
+  "files": [
+    {
+      "id": "19eade93-6d1d-4fee-8620-cbf7acb1a2a9",
+      "path": "/Users/p0ny/actions-create-release/migrations/1.sql",
+      "sheet": "projects/db333/sheets/3419",
+      "sheetSha256": "59f4465c53bb4c7d316be41fd89773b401e9c926b75d73cb856ac103d3068223",
+      "type": "VERSIONED",
+      "version": "1.4.3",
+      "statement": "Y3JlYXRlIHRhYmxlIGV3Z3IgKGlkIGludCk7",
+      "statementSize": "27"
+    },
+    {
+      "id": "8332d038-eded-4aef-a6ec-6ebcd96015b9",
+      "path": "/Users/p0ny/actions-create-release/migrations/2.sql",
+      "sheet": "projects/db333/sheets/3420",
+      "sheetSha256": "e55a8a80adb6ebceb5438b1842e31cd359d649fb655502639f5f6ee3cbd80dc8",
+      "type": "VERSIONED",
+      "version": "2.4.2",
+      "statement": "ZHJvcCB0YWJsZSBld2dyOw==",
+      "statementSize": "16"
+    }
+  ],
+  "vcsSource": {
+    "vcsType": "GITHUB",
+    "url": "https://github.com/bytebase/bytebase/commits/undefined"
+  },
+  "creator": "users/xz@bytebase.com",
+  "createTime": "2025-01-13T07:03:17.603910Z",
+  "state": "ACTIVE"
+}
+
+
+GET {{url}}/v1/projects/db333/releases/101
+Authorization: Bearer {{token}}

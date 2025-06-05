@@ -1,0 +1,3 @@
+### List all settings
+GET {{url}}/v1/settings
+Authorization: Bearer {{token}}

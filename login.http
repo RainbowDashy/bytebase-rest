@@ -1,0 +1,14 @@
+POST {{url}}/v1/auth/login
+
+{
+  "email": "xz@bytebase.com",
+  "password": "me"
+}
+
+# POST {{url}}/v1/auth/login
+
+# {
+#   "email": "cicd_srv@service.bytebase.com",
+#   "password": "bbs_yxHD5mH5ZzNKKIzhzT7C"
+# }
+

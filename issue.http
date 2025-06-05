@@ -1,0 +1,13 @@
+### List all issues in project db333
+GET {{url}}/v1/projects/db333/issues
+Authorization: Bearer {{token}}
+
+###
+
+### approve
+POST {{url}}/v1/projects/db333/issues/673:approve
+Authorization: Bearer {{token}}
+
+{
+    "comment": "from api calls"
+}

@@ -1,0 +1,28 @@
+# @name GetSetting
+GET {{url}}/v1/settings/bb.workspace.environment
+Cookie: {{cookie}}
+
+# @name ListSettings
+GET {{url}}/v1/settings
+Cookie: {{cookie}}
+
+# @name UpdateSetting EnvironmentSetting
+PATCH {{url}}/v1/settings/bb.workspace.environment
+Cookie: {{cookie}}
+{
+  "name": "bb.workspace.environment",
+  "value": {
+    "environmentSetting": {
+      "environments": [
+        {
+          "title": "Test",
+          "id": "test"
+        },
+        {
+          "title": "Prod",
+          "id": "prod"
+        }
+      ]
+    }
+  }
+}

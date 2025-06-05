@@ -1,0 +1,7 @@
+GET https://api.github.com/repos/bytebase/bytebase/issues/15859/comments
+Authorization: Bearer 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
+
+GET https://api.github.com/repos/bytebase/example-gitops-github-flow/issues/9/comments
+Authorization: Bearer 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
+
+GET https://db.gosh.com/v1/subscription

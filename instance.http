@@ -1,0 +1,15 @@
+### List all instances
+GET {{url}}/v1/instances
+Authorization: Bearer {{token}}
+
+###
+
+### Update instance environment
+PATCH {{url}}/v1/instances/sample-instance?updateMask=environment
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "instances/sample-instance",
+  "environment": "environments/prod"
+}

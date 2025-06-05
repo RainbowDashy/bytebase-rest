@@ -1,0 +1,87 @@
+POST {{url}}/v1/projects/db333:previewPlan
+Authorization: Bearer {{token}}
+{
+  "release": "projects/db333/releases/110",
+  "targets": ["instances/dbdbdb/databases/db_104"]
+}
+
+###
+POST {{url}}/v1/projects/db333/plans
+Cookie: {{cookie}}
+{
+    "title": "Preview plan for release \"projects/db333/releases/109\"",
+    "steps": [
+      {
+        "specs": [
+          {
+            "id": "c97b21b3-7089-466c-a241-ce18d0f9234d",
+            "changeDatabaseConfig": {
+              "target": "projects/db333/databaseGroups/all-databases",
+              "sheet": "projects/db333/sheets/3442",
+              "type": "DATA",
+              "schemaVersion": "202501231429"
+            }
+          }
+        ]
+      }
+    ]
+}
+
+GET {{url}}/v1/actuator/info
+Cookie: {{cookie}}
+
+POST {{url}}/v1/projects/db333/rollouts?validateOnly=true
+Cookie: {{cookie}}
+{
+    "plan": "projects/db333/plans/684"
+}
+
+GET {{url}}/v1/projects/db333/plans/684
+Cookie: {{cookie}}
+
+PATCH {{url}}/v1/projects/db333/plans/684?update_mask=deployment
+Cookie: {{cookie}}
+{
+  "steps": [
+    {
+      "specs": [
+        {
+          "id": "c97b21b3-7089-466c-a241-ce18d0f9234d",
+          "specReleaseSource": {},
+          "changeDatabaseConfig": {
+            "target": "projects/db333/databaseGroups/all-databases",
+            "sheet": "projects/db333/sheets/3441",
+            "type": "DATA",
+            "schemaVersion": "202501231429",
+            "preUpdateBackupDetail": {}
+          }
+        }
+      ]
+    }
+  ],
+  "deployment": {
+    "environments": [
+      "test",
+      "prod",
+      "haha",
+      "wuwwu",
+      "wuwuwu",
+      "jjj",
+      "iii"
+    ],
+    "databaseGroupMappings": [
+      {
+        "databaseGroup": "projects/db333/databaseGroups/all-databases",
+        "databases": [
+          "instances/dbdbdb/databases/db_0",
+          "instances/dbdbdb/databases/db_1",
+          "instances/dbdbdb/databases/db_96",
+          "instances/dbdbdb/databases/db_97",
+          "instances/dbdbdb/databases/db_98",
+          "instances/dbdbdb/databases/db_99",
+          "instances/gcf/databases/db_149"
+        ]
+      }
+    ]
+  }
+}

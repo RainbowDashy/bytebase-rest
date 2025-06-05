@@ -1,0 +1,2 @@
+### Get actuator info
+GET {{url}}/v1/actuator/info

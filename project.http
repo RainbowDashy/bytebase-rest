@@ -1,0 +1,67 @@
+### List all projects
+GET {{url}}/v1/projects
+Authorization: Bearer {{token}}
+
+###
+
+GET {{url}}/v1/projects/db333/plans
+Cookie: {{cookie}}
+
+###
+
+GET {{url}}/v1/instances/dbdbdb/databases/db_1/changelogs?filter=status%20%3D%20DONE
+# GET {{url}}/v1/instances/dbdbdb/databases/db_1/changelogs
+Cookie: {{cookie}}
+
+GET {{url}}/v1/instances/dbdbdb/databases/db_1/schema
+Cookie: {{cookie}}
+
+GET {{url}}/v1/projects/db333/issues?filter=status%20%3D%20OPEN
+Cookie: {{cookie}}
+
+
+###
+GET {{url}}/v1/projects/db333/plans/671
+Cookie: {{cookie}}
+
+POST {{url}}/v1/projects/db333/rollouts/638/stages/743/tasks:batchRun
+{
+    "tasks":["projects/db333/rollouts/638/stages/743/tasks/9360"],"reason":"run wuwwu Stage batch"
+}
+
+GET {{url}}/v1/projects/db333/issues/627
+
+GET {{url}}/v1/projects/db333/rollouts/
+
+###
+
+PATCH {{url}}/v1/projects/db333/plans/670?update_mask=steps
+Cookie: {{cookie}}
+Content-Type: application/json
+
+{
+  "name": "projects/db333/plans/670",
+  "steps": [
+    {
+      "title": "Step 1",
+      "specs": [
+        {
+          "id": "c9d3176e-3609-4e24-8969-b34e9532ef86",
+          "specReleaseSource": {},
+          "changeDatabaseConfig": {
+            "target": "instances/dbdbdb/databases/db_1",
+            "sheet": "projects/db333/sheets/3466",
+            "type": "MIGRATE",
+            "preUpdateBackupDetail": {}
+          }
+        }
+      ]
+    }
+  ]
+}
+
+###
+
+GET https://demo.bytebase.com/v1/projects/project-sample/rollouts/112
+Cookie: access-token=eyJhbGciOiJIUzI1NiIsImtpZCI6InYxIiwidHlwIjoiSldUIn0.eyJuYW1lIjoiRGVtbyIsImlzcyI6ImJ5dGViYXNlIiwic3ViIjoiMTAxIiwiYXVkIjpbImJiLnVzZXIuYWNjZXNzLmRldiJdLCJleHAiOjE3NDExNjY1ODYsImlhdCI6MTc0MDU2MTc4Nn0.20K6j-yhFeawEoAQLu-peVvDVTYf5HUqbsIhLoCXUP8; user=101; cf_clearance=oCKfWD5pSUOMzpjvINa0iXO940509lOIt96CdW4YtIc-1741077654-1.2.1.1-pVa3IWRwS0KvJm.LDaUpHqNQO_MtJ2LlySAI3ku6nL3IxGZlnDgChW7RWkaU3sSDSEdc6FZNX5rNZvcXSMJL0ChtcOLx4UygMAlBwzePcTW3UhVCPTJRBj8iLWRw_P5fLSwiUg5RE0xf95tpAR2VWEh_D8SSM_8b8kT_wJBRTobmlJzV1ZMxE.a8Iy9sK7Qx6oFQazUYw2xndWp1Fmg7WT2n5Ki5KtR1oKmGeE3xFeAlhWkOv_BXHAOKv5R.wl40bhRCVKUsXRZnJibIiIBCaJU9706.YZTZ6WDyIzO96sq8RIfPpUYoLDb1yXU8SMDMes.a9ib6VbM1u25WANnYt9QOgxxfzExKWmvIHANnk4X5itDNV5h.cvfaAbt0MmGorFkGwlUfgL72HC78qGwSGNAna05xeMh8UMxUwvcOt4A
+ 
