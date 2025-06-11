@@ -1,0 +1,26 @@
+### AdminExecute gRPC Request - Using httpyac gRPC mode
+# Execute SQL query using adminExecute with gRPC mode
+GRPC {{url}}/bytebase.v1.SQLService/AdminExecute
+Authorization: Bearer {{token}}
+
+{
+  "name": "instances/metadb/databases/postgres",
+  "statement": "SELECT '2026-01-01'::timestamptz",
+  "limit": 1000
+}
+
+###
+
+### Query gRPC Request - Using httpyac gRPC mode
+# Execute SQL query using Query with gRPC mode
+GRPC {{url}}/bytebase.v1.SQLService/Query
+Authorization: Bearer {{token}}
+
+{
+  "name": "instances/metadb/databases/postgres",
+  "statement": "SELECT '2026-01-01'::timestamptz",
+  "data_source_id": "2d054f02-1dfb-488d-9e2a-5521358ed9b6",
+  "limit": 1000
+}
+
+###

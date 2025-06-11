@@ -1,0 +1,134 @@
+### Admin Execute API Examples
+# This file contains practical examples for testing the adminExecute streaming endpoint
+
+### 1. Basic Admin Execute - Simple Query
+# Test with a simple SELECT statement
+GET {{url}}/v1:adminExecute?name=instances/metadb/databases/postgres&statement=SELECT%20NOW()%20as%20current_time&limit=1
+Authorization: Bearer {{token}}
+
+###
+
+### 2. Admin Execute with Parameters
+# Query with specific limit and schema
+GET {{url}}/v1:adminExecute?name=instances/metadb/databases/postgres&statement=SELECT%20version()&limit=5&schema=public
+Authorization: Bearer {{token}}
+
+###
+
+### 3. Admin Execute - Table Query
+# Query a specific table (adjust table name as needed)
+GET {{url}}/v1:adminExecute?name=instances/metadb/databases/postgres&statement=SELECT%20COUNT(*)%20FROM%20information_schema.tables&limit=10
+Authorization: Bearer {{token}}
+
+###
+
+### 4. Admin Execute - DDL Statement
+# Execute a DDL statement (be careful with this!)
+GET {{url}}/v1:adminExecute?name=instances/metadb/databases/postgres&statement=SELECT%20tablename%20FROM%20pg_tables%20WHERE%20schemaname%20=%20%27public%27&limit=20
+Authorization: Bearer {{token}}
+
+###
+
+### grpcurl Examples (Command Line)
+# These are bash commands to test the gRPC streaming endpoint directly
+
+# Basic query with grpcurl
+# grpcurl -plaintext -H "authorization: Bearer ${token}" \
+#   -d '{
+#     "name": "instances/metadb/databases/postgres", 
+#     "statement": "SELECT NOW() as current_time",
+#     "limit": 1
+#   }' \
+#   localhost:8080 bytebase.v1.SQLService.AdminExecute
+
+# Query with schema specification
+# grpcurl -plaintext -H "authorization: Bearer ${token}" \
+#   -d '{
+#     "name": "instances/metadb/databases/postgres",
+#     "statement": "SELECT schemaname, tablename FROM pg_tables LIMIT 5", 
+#     "limit": 10,
+#     "schema": "public"
+#   }' \
+#   localhost:8080 bytebase.v1.SQLService.AdminExecute
+
+###
+
+### WebSocket Test (JavaScript)
+# Use this JavaScript code in browser console to test WebSocket connection:
+
+# ```javascript
+# // Connect to WebSocket endpoint
+# const ws = new WebSocket('ws://localhost:8080/v1:adminExecute');
+# 
+# // Set auth header (this needs to be done server-side in real implementation)
+# ws.onopen = function() {
+#   console.log('WebSocket connected');
+#   
+#   // Send query request
+#   const request = {
+#     name: "instances/metadb/databases/postgres",
+#     statement: "SELECT NOW() as current_time, version() as db_version",
+#     limit: 1
+#   };
+#   
+#   ws.send(JSON.stringify(request));
+# };
+# 
+# // Handle response
+# ws.onmessage = function(event) {
+#   const data = JSON.parse(event.data);
+#   console.log('Response:', data);
+#   
+#   if (data.result && data.result.results) {
+#     data.result.results.forEach(result => {
+#       console.log('Columns:', result.columnNames);
+#       console.log('Rows:', result.rows);
+#       if (result.error) {
+#         console.error('Query error:', result.error);
+#       }
+#     });
+#   }
+# };
+# 
+# ws.onerror = function(error) {
+#   console.error('WebSocket error:', error);
+# };
+# 
+# ws.onclose = function() {
+#   console.log('WebSocket connection closed');
+# };
+# ```
+
+###
+
+### Testing Notes
+
+# 1. HTTP GET Limitations:
+#    - The HTTP GET method for adminExecute has limited support
+#    - It's mainly for testing and debugging purposes
+#    - For production streaming, use gRPC client or WebSocket
+
+# 2. Authentication:
+#    - Requires valid Bearer token in Authorization header
+#    - User must have "bb.sql.admin" permission
+#    - Token can be obtained from login endpoint
+
+# 3. URL Encoding:
+#    - SQL statements in GET requests must be URL encoded
+#    - Spaces become %20, quotes become %27, etc.
+#    - Use online URL encoders for complex queries
+
+# 4. Database Resource Names:
+#    - Format: instances/{instance-id}/databases/{database-name}
+#    - Replace 'metadb' and 'postgres' with actual values
+#    - Check available instances/databases via other API endpoints
+
+# 5. Response Format:
+#    - Results are wrapped in AdminExecuteResponse
+#    - Each result contains columnNames, rows, error, latency, etc.
+#    - Streaming allows multiple result sets per connection
+
+# 6. Error Handling:
+#    - SQL errors are returned in result.error field
+#    - Connection errors cause HTTP/WebSocket errors
+#    - Always check both response structure and error fields

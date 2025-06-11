@@ -1,0 +1,28 @@
+### Test CheckRelease with changed-but-applied release file
+# This tests that CheckRelease warns about a release file that has been executed
+# but has a different sha256 hash (simulating a file that was changed after execution)
+# Original statement was: "CREATE TABLE tbl1(id int);\n"
+# Modified statement: "CREATE TABLE tbl1(id int, name varchar(100));\n"
+POST {{url}}/v1/projects/db333/releases:check
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "release": {
+    "title": "Test Release - Changed SHA256",
+    "files": [
+      {
+        "path": "migrations/20250114001_create_tbl1.sql",
+        "type": "VERSIONED",
+        "version": "20250114001",
+        "changeType": "DDL",
+        "statement": "Q1JFQVRFIFRBQkxFIHRibDEoaWQgaW50LCBuYW1lIHZhcmNoYXIoMTAwKSk7Cg=="
+      }
+    ]
+  },
+  "targets": [
+    "instances/dbdbdb/databases/db_1"
+  ]
+}
+
+###

@@ -1,0 +1,102 @@
+### List revisions for a database
+# Format: GET /v1/{parent=instances/*/databases/*}/revisions
+# Parent format: instances/{instance}/databases/{database}
+GET {{url}}/v1/instances/sample-instance/databases/employee/revisions
+Authorization: Bearer {{token}}
+
+###
+
+### List revisions with pagination
+GET {{url}}/v1/instances/sample-instance/databases/employee/revisions?pageSize=10
+Authorization: Bearer {{token}}
+
+###
+
+### List revisions including deleted ones
+GET {{url}}/v1/instances/sample-instance/databases/employee/revisions?showDeleted=true
+Authorization: Bearer {{token}}
+
+###
+
+### Get a specific revision
+# Format: GET /v1/{name=instances/*/databases/*/revisions/*}
+# Name format: instances/{instance}/databases/{database}/revisions/{revision}
+GET {{url}}/v1/instances/sample-instance/databases/employee/revisions/1
+Authorization: Bearer {{token}}
+
+###
+
+### Create a new revision
+# Format: POST /v1/{parent=instances/*/databases/*}/revisions
+POST {{url}}/v1/instances/sample-instance/databases/employee/revisions
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "sheet": "projects/project1/sheets/1001",
+  "version": "1.0.0",
+  "release": "projects/project1/releases/1",
+  "file": "projects/project1/releases/1/files/file1"
+}
+
+###
+
+### Create a revision without release
+POST {{url}}/v1/instances/sample-instance/databases/employee/revisions
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "sheet": "projects/project1/sheets/1001",
+  "version": "1.0.0"
+}
+
+###
+
+### Create a revision with issue and task run
+POST {{url}}/v1/instances/sample-instance/databases/employee/revisions
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "sheet": "projects/project1/sheets/1001",
+  "version": "1.0.0",
+  "issue": "projects/project1/issues/101",
+  "taskRun": "projects/project1/rollouts/201/stages/301/tasks/401/taskRuns/501"
+}
+
+###
+
+### Batch create revisions
+# Format: POST /v1/{parent=instances/*/databases/*}/revisions:batchCreate
+POST {{url}}/v1/instances/sample-instance/databases/employee/revisions:batchCreate
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "requests": [
+    {
+      "parent": "instances/sample-instance/databases/employee",
+      "revision": {
+        "sheet": "projects/project1/sheets/1001",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "parent": "instances/sample-instance/databases/employee",
+      "revision": {
+        "sheet": "projects/project1/sheets/1002",
+        "version": "1.0.1"
+      }
+    }
+  ]
+}
+
+###
+
+### Delete a revision
+# Format: DELETE /v1/{name=instances/*/databases/*/revisions/*}
+DELETE {{url}}/v1/instances/sample-instance/databases/employee/revisions/1
+Authorization: Bearer {{token}}
+
+###

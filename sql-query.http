@@ -1,0 +1,143 @@
+### SQL Query API - Regular Query
+# Execute a SQL query using the regular query API
+POST {{url}}/v1/instances/metadb/databases/postgres:query
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "statement": "SELECT '2026-01-01'::timestamptz",
+  "dataSourceId": "2d054f02-1dfb-488d-9e2a-5521358ed9b6",
+  "limit": 1000
+}
+
+###
+
+### SQL Admin Execute API - Basic HTTP GET (Limited Support)
+# Note: adminExecute is a gRPC streaming endpoint. HTTP GET support is limited
+# and mainly for testing purposes. For production use, prefer gRPC client or WebSocket.
+GET {{url}}/v1:adminExecute?name=instances/metadb/databases/postgres&statement=SELECT%20NOW()&limit=1
+Authorization: Bearer {{token}}
+
+###
+
+### Admin Execute Examples - How to Use This Streaming Endpoint
+
+# The adminExecute endpoint is designed for streaming gRPC communication.
+# Here are the different ways to use it:
+
+## 1. gRPC Client (Go Example)
+# ```go
+# client, err := ctl.sqlServiceClient.AdminExecute(ctx)
+# if err != nil {
+#     return nil, err
+# }
+# 
+# // Send request
+# if err := client.Send(&v1pb.AdminExecuteRequest{
+#     Name: "instances/metadb/databases/postgres",
+#     Statement: "SELECT NOW()",
+#     Limit: 1000,
+# }); err != nil {
+#     return nil, err
+# }
+# 
+# // Receive response
+# resp, err := client.Recv()
+# if err != nil {
+#     return nil, err
+# }
+# 
+# // Close send stream
+# if err := client.CloseSend(); err != nil {
+#     return nil, err
+# }
+# ```
+
+## 2. grpcurl Command Line
+# ```bash
+# # Test with grpcurl (requires gRPC reflection or proto files)
+# grpcurl -plaintext -H "authorization: Bearer ${token}" \
+#   -d '{
+#     "name": "instances/metadb/databases/postgres",
+#     "statement": "SELECT NOW()",
+#     "limit": 1000
+#   }' \
+#   localhost:8080 bytebase.v1.SQLService.AdminExecute
+# ```
+
+## 3. WebSocket Client (JavaScript/TypeScript)
+# The frontend uses a WebSocket connection for streaming:
+# ```javascript
+# // Create WebSocket connection to ws://localhost:8080/v1:adminExecute
+# const url = new URL("ws://localhost:8080/v1:adminExecute");
+# const ws = new WebSocket(url);
+# 
+# // Send request as JSON
+# const request = {
+#   name: "instances/metadb/databases/postgres",
+#   statement: "SELECT NOW()",
+#   limit: 1000
+# };
+# ws.send(JSON.stringify(request));
+# 
+# // Handle response
+# ws.onmessage = (event) => {
+#   const data = JSON.parse(event.data);
+#   if (data.result) {
+#     console.log("Query results:", data.result.results);
+#   } else if (data.error) {
+#     console.error("Query error:", data.error);
+#   }
+# };
+# ```
+
+## 4. Request/Response Format
+
+# AdminExecuteRequest fields:
+# - name: Database resource name (required)
+#   Format: "instances/{instance}/databases/{database}"
+# - statement: SQL statement to execute
+# - limit: Maximum number of rows to return (int32)
+# - schema: Default schema (optional)
+# - container: Container name for CosmosDB (optional)
+
+# AdminExecuteResponse format:
+# {
+#   "results": [
+#     {
+#       "columnNames": ["column1", "column2"],
+#       "columnTypeNames": ["VARCHAR", "INTEGER"],
+#       "rows": [
+#         {
+#           "values": [
+#             {"stringValue": "value1"},
+#             {"int32Value": 123}
+#           ]
+#         }
+#       ],
+#       "rowsCount": 1,
+#       "latency": "123ms",
+#       "statement": "SELECT NOW()",
+#       "error": "",
+#       "allowExport": true
+#     }
+#   ]
+# }
+
+## 5. Key Differences from Regular Query API
+
+# AdminExecute:
+# - Uses streaming gRPC (bidirectional)
+# - Requires "bb.sql.admin" permission
+# - No dataSourceId needed (uses admin connection)
+# - Supports WebSocket for web clients
+# - Can handle multiple requests/responses in one connection
+
+# Regular Query:
+# - Uses standard HTTP POST
+# - Requires "bb.databases.get" permission  
+# - Requires dataSourceId parameter
+# - Single request/response
+# - Better for simple one-off queries
+
+###

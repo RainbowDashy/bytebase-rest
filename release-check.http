@@ -1,0 +1,152 @@
+### Check Release - DDL example
+# @name checkReleaseDDL
+POST {{url}}/v1/projects/db333/releases:check
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "release": {
+    "title": "Test Release - DDL",
+    "files": [
+      {
+        "path": "migrations/V001_create_table.sql",
+        "type": "VERSIONED",
+        "version": "V001",
+        "changeType": "DDL",
+        "statement": "CREATE TABLE users (\n    id INT PRIMARY KEY,\n    name VARCHAR(100)\n);"
+      }
+    ]
+  },
+  "targets": [
+    "instances/sample-instance/databases/test"
+  ]
+}
+
+### Check Release - DML example
+# @name checkReleaseDML
+POST {{url}}/v1/projects/db333/releases:check
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "release": {
+    "title": "Test Release - DML",
+    "files": [
+      {
+        "path": "migrations/V002_insert_data.sql",
+        "type": "VERSIONED",
+        "version": "V002",
+        "changeType": "DML",
+        "statement": "INSERT INTO users (id, name) VALUES (1, 'John Doe'), (2, 'Jane Smith');"
+      }
+    ]
+  },
+  "targets": [
+    "instances/sample-instance/databases/test"
+  ]
+}
+
+### Check Release - Multiple files
+# @name checkReleaseMultiple
+POST {{url}}/v1/projects/db333/releases:check
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "release": {
+    "title": "Test Release - Multiple Files",
+    "files": [
+      {
+        "path": "migrations/V001_create_table.sql",
+        "type": "VERSIONED",
+        "version": "V001",
+        "changeType": "DDL",
+        "statement": "CREATE TABLE products (\n    id INT PRIMARY KEY,\n    name VARCHAR(200),\n    price DECIMAL(10, 2)\n);"
+      },
+      {
+        "path": "migrations/V002_add_column.sql",
+        "type": "VERSIONED",
+        "version": "V002",
+        "changeType": "DDL",
+        "statement": "ALTER TABLE products ADD COLUMN description TEXT;"
+      }
+    ]
+  },
+  "targets": [
+    "instances/sample-instance/databases/test"
+  ]
+}
+
+### Check Release - Using sheet reference
+# @name checkReleaseSheet
+POST {{url}}/v1/projects/db333/releases:check
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "release": {
+    "title": "Test Release - Sheet Reference",
+    "files": [
+      {
+        "path": "migrations/V003_from_sheet.sql",
+        "type": "VERSIONED",
+        "version": "V003",
+        "changeType": "DDL",
+        "sheet": "projects/db333/sheets/3466"
+      }
+    ]
+  },
+  "targets": [
+    "instances/sample-instance/databases/test"
+  ]
+}
+
+### Check Release - DDL Ghost (for online schema changes)
+# @name checkReleaseGhost
+POST {{url}}/v1/projects/db333/releases:check
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "release": {
+    "title": "Test Release - Ghost DDL",
+    "files": [
+      {
+        "path": "migrations/V004_ghost_migration.sql",
+        "type": "VERSIONED",
+        "version": "V004",
+        "changeType": "DDL_GHOST",
+        "statement": "ALTER TABLE users ADD COLUMN email VARCHAR(255);"
+      }
+    ]
+  },
+  "targets": [
+    "instances/sample-instance/databases/test"
+  ]
+}
+
+### Check Release - Database group target
+# @name checkReleaseDatabaseGroup
+POST {{url}}/v1/projects/db333/releases:check
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "release": {
+    "title": "Test Release - Database Group",
+    "files": [
+      {
+        "path": "migrations/V001_create_index.sql",
+        "type": "VERSIONED",
+        "version": "V001",
+        "changeType": "DDL",
+        "statement": "CREATE INDEX idx_users_name ON users(name);"
+      }
+    ]
+  },
+  "targets": [
+    "projects/db333/databaseGroups/prod-dbs"
+  ]
+}
+
+###

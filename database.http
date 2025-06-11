@@ -1,0 +1,272 @@
+### List databases in a project
+# Lists all databases within a specific project
+GET {{url}}/v1/projects/db333/databases
+Authorization: Bearer {{token}}
+
+###
+
+### List databases in an instance
+# Lists all databases within a specific instance
+GET {{url}}/v1/instances/dbdbdb/databases
+Authorization: Bearer {{token}}
+
+###
+
+### List all databases in workspace
+# Lists all databases across the entire workspace
+GET {{url}}/v1/workspaces/-/databases
+Authorization: Bearer {{token}}
+
+###
+
+### List databases with filter - by environment
+# Filter databases by environment
+GET {{url}}/v1/projects/db333/databases?filter=environment%20%3D%3D%20%22environments%2Fprod%22
+Authorization: Bearer {{token}}
+
+###
+
+### List databases with filter - by name pattern
+# Filter databases by name pattern using matches()
+GET {{url}}/v1/projects/db333/databases?filter=name.matches(%22db_%22)
+Authorization: Bearer {{token}}
+
+###
+
+### List databases with pagination
+# Get databases with page size limit
+GET {{url}}/v1/projects/db333/databases?pageSize=50
+Authorization: Bearer {{token}}
+
+###
+
+### Get a specific database
+# Get details of a specific database
+GET {{url}}/v1/instances/dbdbdb/databases/db_1
+Authorization: Bearer {{token}}
+
+###
+
+### Get database metadata (schema information)
+# Get detailed metadata including tables, columns, indexes, etc.
+GET {{url}}/v1/instances/dbdbdb/databases/db_1/metadata
+Authorization: Bearer {{token}}
+
+###
+
+### Get database schema
+# Get the schema dump of a database
+GET {{url}}/v1/instances/dbdbdb/databases/db_1/schema
+Authorization: Bearer {{token}}
+
+###
+
+### Update database project
+# Move a database to a different project
+PATCH {{url}}/v1/instances/dbdbdb/databases/db_1?updateMask=project
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "instances/dbdbdb/databases/db_1",
+  "project": "projects/another-project"
+}
+
+###
+
+### Update database labels
+# Update labels on a database
+PATCH {{url}}/v1/instances/dbdbdb/databases/db_1?updateMask=labels
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "instances/dbdbdb/databases/db_1",
+  "labels": {
+    "environment": "production",
+    "team": "backend"
+  }
+}
+
+###
+
+### Sync database schema
+# Trigger a schema synchronization for a database
+POST {{url}}/v1/instances/dbdbdb/databases/db_1:sync
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{}
+
+###
+
+### Batch get databases
+# Get multiple specific databases at once
+GET {{url}}/v1/projects/db333/databases:batchGet?names=instances%2Fdbdbdb%2Fdatabases%2Fdb_1&names=instances%2Fdbdbdb%2Fdatabases%2Fdb_2
+Authorization: Bearer {{token}}
+
+###
+
+### List databases excluding unassigned
+# Filter to show only databases assigned to projects
+GET {{url}}/v1/workspaces/-/databases?filter=exclude_unassigned%20%3D%3D%20true
+Authorization: Bearer {{token}}
+
+###
+
+### List drifted databases
+# Show databases where schema has drifted from source of truth
+GET {{url}}/v1/workspaces/-/databases?filter=drifted%20%3D%3D%20true
+Authorization: Bearer {{token}}
+
+###
+
+### List databases by engine type
+# Filter databases by engine (MYSQL, POSTGRES, etc.)
+GET {{url}}/v1/projects/db333/databases?filter=engine%20%3D%3D%20%22MYSQL%22
+Authorization: Bearer {{token}}
+
+###
+
+### List databases with multiple filters
+# Combine filters: production environment AND name pattern
+GET {{url}}/v1/projects/db333/databases?filter=environment%20%3D%3D%20%22environments%2Fprod%22%20%26%26%20name.matches(%22employee%22)
+Authorization: Bearer {{token}}
+
+###
+
+### List changelogs for a database
+# Get change history for a specific database
+GET {{url}}/v1/instances/dbdbdb/databases/db_1/changelogs
+Authorization: Bearer {{token}}
+
+###
+
+### List changelogs with filter
+# Filter changelogs by status (PENDING, DONE, FAILED)
+GET {{url}}/v1/instances/dbdbdb/databases/db_1/changelogs?filter=status%20%3D%20DONE
+Authorization: Bearer {{token}}
+
+###
+
+### Get database schema string
+# Get schema as SQL DDL string
+GET {{url}}/v1/instances/dbdbdb/databases/db_1/schemaString
+Authorization: Bearer {{token}}
+
+###
+
+### Batch update databases
+# Update multiple databases at once (e.g., move to different project)
+POST {{url}}/v1/instances/dbdbdb/databases:batchUpdate
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "requests": [
+    {
+      "database": {
+        "name": "instances/dbdbdb/databases/db_1",
+        "project": "projects/another-project"
+      },
+      "updateMask": "project"
+    },
+    {
+      "database": {
+        "name": "instances/dbdbdb/databases/db_2",
+        "project": "projects/another-project"
+      },
+      "updateMask": "project"
+    }
+  ]
+}
+
+###
+
+### Batch sync databases
+# Trigger schema synchronization for multiple databases
+POST {{url}}/v1/instances/dbdbdb/databases:batchSync
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "names": [
+    "instances/dbdbdb/databases/db_1",
+    "instances/dbdbdb/databases/db_2"
+  ]
+}
+
+###
+
+### Get filtered database metadata
+# Get metadata for specific schema or table
+GET {{url}}/v1/instances/dbdbdb/databases/db_1/metadata?filter=schema%20%3D%3D%20%22public%22
+Authorization: Bearer {{token}}
+
+###
+
+### Get database schema in SDL format
+# Get schema in Schema Definition Language format
+GET {{url}}/v1/instances/dbdbdb/databases/db_1/schema?sdlFormat=true
+Authorization: Bearer {{token}}
+
+###
+
+### List database changelogs (revisions)
+# Get all changelogs/revisions for database db_1
+GET {{url}}/v1/instances/dbdbdb/databases/db_1/changelogs
+Authorization: Bearer {{token}}
+
+###
+
+### List database changelogs with filter
+# Get only completed changelogs
+GET {{url}}/v1/instances/dbdbdb/databases/db_1/changelogs?filter=status%20%3D%20DONE
+Authorization: Bearer {{token}}
+
+###
+
+### List database changelogs with pagination
+# Get changelogs with pagination
+GET {{url}}/v1/instances/dbdbdb/databases/db_1/changelogs?pageSize=50&pageToken=
+Authorization: Bearer {{token}}
+
+###
+
+### List database revisions
+# Get all revisions for database db_1
+GET {{url}}/v1/instances/dbdbdb/databases/db_1/revisions
+Authorization: Bearer {{token}}
+
+###
+
+### List database revisions with pagination
+# Get revisions with pagination
+GET {{url}}/v1/instances/dbdbdb/databases/db_1/revisions?pageSize=50
+Authorization: Bearer {{token}}
+
+###
+
+### List database revisions including deleted
+# Get all revisions including deleted ones
+GET {{url}}/v1/instances/dbdbdb/databases/db_1/revisions?showDeleted=true
+Authorization: Bearer {{token}}
+
+###
+
+### Get specific revision
+# Get details of a specific revision
+GET {{url}}/v1/instances/dbdbdb/databases/db_1/revisions/1
+Authorization: Bearer {{token}}
+
+###
+
+### Compare database schemas
+# Diff current schema against another version
+POST {{url}}/v1/instances/dbdbdb/databases/db_1:diffSchema
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "schema": "CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(100));"
+}
